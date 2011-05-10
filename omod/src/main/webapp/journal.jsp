@@ -1,5 +1,17 @@
-<%@ include file="/WEB-INF/template/include.jsp"%>
+<%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
+<personalhr:require privilege="View Journal" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+
 <c:if test="${hasPermission}">
+
+<openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
+<c:if test="${phrStarted}">
+	<%@ page import="org.openmrs.web.WebConstants" %>
+	<%
+		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
+	%>
+	<openmrs:htmlInclude file="/dwr/engine.js" />	
+</c:if>
+
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/phrjournal/css/journal.css" type="text/css"/>
 

@@ -26,7 +26,7 @@ public class PatientJournalTab extends PatientDashboardTabExt {
 
     @Override
     public String getRequiredPrivilege() {
-	    return null;
+        return "View Journal";
     }
 
 }

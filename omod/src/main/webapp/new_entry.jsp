@@ -1,4 +1,14 @@
-<%@ include file="/WEB-INF/template/include.jsp"%>
+<%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
+<personalhr:require privilege="View Journal" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+
+<openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
+<c:if test="${phrStarted}">
+	<%@ page import="org.openmrs.web.WebConstants" %>
+	<%
+		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
+	%>
+	<openmrs:htmlInclude file="/dwr/engine.js" />	
+</c:if>
 
 <!-- YUI Text Editor includes -->
 <link rel="stylesheet" type="text/css" href="<openmrs:contextPath/>/moduleResources/phrjournal/yui-text-editor/skin.css">
