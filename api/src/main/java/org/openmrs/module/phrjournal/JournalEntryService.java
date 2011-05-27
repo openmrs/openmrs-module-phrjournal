@@ -72,4 +72,10 @@ public interface JournalEntryService extends OpenmrsService {
 	 */
 	@Transactional
 	public void deleteJournalEntry(JournalEntry entry) throws APIException;
+
+	/**
+	 * Sets the deleted flag to true
+	 */
+	@Transactional
+	public void softDelete(JournalEntry entry);
 }

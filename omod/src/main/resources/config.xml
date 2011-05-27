@@ -52,6 +52,7 @@
 			<create creator="new" javascript="DWRJournalEntryService">
 				<param name="class" value="org.openmrs.module.phrjournal.web.dwr.DWRJournalEntryService"/>
 				<include method="getJournalEntries"/>
+				<include method="softDeleteEntry"/>
 			</create>
 		</allow>
 	</dwr>

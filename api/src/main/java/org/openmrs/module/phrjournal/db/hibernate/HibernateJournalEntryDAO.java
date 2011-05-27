@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.phrjournal.db.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -83,6 +84,7 @@ public class HibernateJournalEntryDAO implements JournalEntryDAO {
 	    	}
 	    }
 	    c.add(Restrictions.eq("creator",p));
+	    c.add(Restrictions.eq("deleted", false));
 	    return c.list();
     }
 
@@ -103,6 +105,13 @@ public class HibernateJournalEntryDAO implements JournalEntryDAO {
 	    		c.addOrder(Order.asc("dateCreated"));
 	    	}
     	}
+    	c.add(Restrictions.eq("deleted", false));
     	return c.list();
     }
+
+	public void softDelete(JournalEntry entry) {
+		entry.setDeleted(true);
+		entry.setDateDeleted(new Date());
+		saveJournalEntry(entry);
+	}
 }

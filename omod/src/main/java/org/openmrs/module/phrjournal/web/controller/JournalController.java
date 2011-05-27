@@ -52,6 +52,7 @@ public class JournalController {
 		}else if(searchText != null && !searchText.trim().equals("")){
 			List<JournalEntry> entries = Context.getService(JournalEntryService.class).findEntries(searchText, user.getPerson(), true);
 			session.setAttribute("entries", entries);
+			session.setAttribute("searching",true);
 		}else{
 			List<JournalEntry> entries = Context.getService(JournalEntryService.class).getJournalEntryForPerson(user.getPerson(),true);
 			session.setAttribute("entries", entries);

@@ -71,7 +71,7 @@ ol a:hover, ol a:active{
         color:grey;
         font-size:0.8em;
         position:absolute;
-        bottom:2px;
+        bottom:5px;
         right:2px;
 }
 #no-results{

@@ -24,19 +24,22 @@ import org.openmrs.Person;
 public class JournalEntry extends BaseOpenmrsObject{
 
 	private JournalEntry(){}
-	public JournalEntry(String title, String content) {
-	    super();
-	    this.title = title;
-	    this.content = content;
-	    this.dateCreated = new Date();
-    }
-
+	
 	private Integer entryId;
 	
 	private String title;
 	private String content;
 	private Person creator;
 	private Date dateCreated;
+	private boolean deleted;
+	private Date dateDeleted;
+	
+	public JournalEntry(String title, String content) {
+	    super();
+	    this.title = title;
+	    this.content = content;
+	    this.dateCreated = new Date();
+    }
 	
 	/**
      * @see org.openmrs.OpenmrsObject#getId()
@@ -121,5 +124,33 @@ public class JournalEntry extends BaseOpenmrsObject{
     public Date getDateCreated() {
 	    return dateCreated;
     }
+
+	/**
+	 * @param deleted the deleted to set
+	 */
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
+	 * @return the deleted
+	 */
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	/**
+	 * @param dateDeleted the dateDeleted to set
+	 */
+	public void setDateDeleted(Date dateDeleted) {
+		this.dateDeleted = dateDeleted;
+	}
+
+	/**
+	 * @return the dateDeleted
+	 */
+	public Date getDateDeleted() {
+		return dateDeleted;
+	}
 
 }

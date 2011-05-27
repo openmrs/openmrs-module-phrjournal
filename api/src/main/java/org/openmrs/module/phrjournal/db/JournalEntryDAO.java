@@ -32,4 +32,6 @@ public interface JournalEntryDAO {
 
     public List<JournalEntry> findEntries(String searchText, Person p, Boolean orderByDateDesc);
 
+	public void softDelete(JournalEntry entry);
+
 }
