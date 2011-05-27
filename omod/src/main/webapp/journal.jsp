@@ -22,9 +22,16 @@
 				</div>
 			</div>
 			<c:if test="${empty entries}">
-				<div id="no-results">
-					<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
-				</div>
+				<c:if test="${searching}">
+					<div id="no-results">
+						<span id="no-results-text">There were no entries matching your search.</span>
+					</div>
+				</c:if>
+				<c:if test="${!searching}">
+					<div id="no-results">
+						<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
+					</div>
+				</c:if>
 			</c:if>
 			<c:forEach var="entry" items="${entries}">
 				<div class="entry">
