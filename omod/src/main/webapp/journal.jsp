@@ -38,16 +38,28 @@
 			</div>
 			<openmrs:hasPrivilege privilege="PHR Single Patient Access">
 				<c:if test="${empty entries}">
-					<div id="no-results">
-						<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
-					</div>
+					<c:if test="${searching}">
+						<div id="no-results">
+							<span id="no-results-text">There were no entries matching your search.</span>
+						</div>
+					</c:if>
+					<c:if test="${!searching}">
+						<div id="no-results">
+							<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
+						</div>
+					</c:if>
 				</c:if>
 			</openmrs:hasPrivilege>
 			<c:forEach var="entry" items="${entries}">
 				<div class="entry">
 					<div class="title-bar">
 						<span class="entry-title">${entry.title}</span>
-						<span class="entry-date"><openmrs:formatDate date="${entry.dateCreated}" format="MM/dd/yyyy K:mm a"/></span>
+						<span class="entry-date">
+							<openmrs:formatDate date="${entry.dateCreated}" format="MM/dd/yyyy K:mm a"/>
+							<a href="#" id="delete=entry-${entry.entryId}" onclick="deleteEntry(${entry.entryId},&quot;${entry.title}&quot;)">
+								<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
+							</a>
+						</span>
 					</div>
 					<div class="entry-content" >${entry.content}</div>
 				</div>
@@ -62,7 +74,7 @@
 	var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 	$j(document).ready(function(){
-		DWRJournalEntryService.getJournalEntries(function(posts){createNavList(posts)});
+		DWRJournalEntryService.getJournalEntries(function(posts){createNavList(posts);});
 		$j("#search-box").val(gup("search"));
 	});
 
@@ -113,6 +125,14 @@
 	
 	function expand(toExpand){
 		$j("#"+toExpand).toggle(100);
+	}
+
+	function deleteEntry(entryId,entryTitle){
+		if(confirm("Are your sure you want to delete \""+ entryTitle + "\"?")){
+			DWRJournalEntryService.softDeleteEntry(entryId,function(){
+				location.reload(true);
+			});
+		}
 	}
 
 </script>

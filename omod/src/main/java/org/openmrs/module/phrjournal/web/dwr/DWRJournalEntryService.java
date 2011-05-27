@@ -25,4 +25,9 @@ public class DWRJournalEntryService {
 		return Context.getService(JournalEntryService.class).getJournalEntryForPerson(Context.getAuthenticatedUser().getPerson(), true);
 	}
 	
+	public void softDeleteEntry(Integer entryId){
+		JournalEntryService journalService = Context.getService(JournalEntryService.class); 
+		JournalEntry entry = journalService.getJournalEntry(entryId);
+		journalService.softDelete(entry);
+	}
 }
