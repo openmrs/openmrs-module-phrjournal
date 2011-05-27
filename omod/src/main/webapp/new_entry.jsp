@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
-<personalhr:require privilege="View Journal" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+<openmrs:require privilege="PHR Single Patient Access" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
 
 <openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
 <c:if test="${phrStarted}">
@@ -7,7 +7,6 @@
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
-	<openmrs:htmlInclude file="/dwr/engine.js" />	
 </c:if>
 
 <!-- YUI Text Editor includes -->
@@ -28,6 +27,7 @@
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/phrjournal/css/new_entry.css" type="text/css"/>
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
 	<div id="module-content">
 		<form method="post" action="<openmrs:contextPath/>/module/phrjournal/create_entry.form" id="new-entry-form">
 			<div id="header-bar">

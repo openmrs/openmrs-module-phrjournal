@@ -34,6 +34,13 @@
 			<artifactId>openmrs-test</artifactId>
 			<type>pom</type>
 		</dependency>
+		<dependency>
+	      <groupId>org.openmrs.module</groupId>
+	      <artifactId>personalhr</artifactId>
+	      <version>0.1</version>
+	      <scope>system</scope>
+	      <systemPath>E:\tools\workspace\phrjournal\omod\src\main\resources\personalhr-0.1.jar</systemPath>
+		</dependency>									
 	</dependencies>
 
 	<build>

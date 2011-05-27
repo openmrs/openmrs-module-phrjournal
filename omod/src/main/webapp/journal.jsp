@@ -9,15 +9,18 @@
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
-	<openmrs:htmlInclude file="/dwr/engine.js" />	
 </c:if>
 
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
+
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/phrjournal/css/journal.css" type="text/css"/>
 
 	<div id="module-content">
 		<div id="nav-bar">
-			<button id="new-entry-button" type="button" onclick="newEntry(); return false;">New Entry</button>
+			<openmrs:hasPrivilege privilege="PHR Single Patient Access">
+				<button id="new-entry-button" type="button" onclick="newEntry(); return false;">New Entry</button>
+			</openmrs:hasPrivilege>
 			<div id="entries-by-month-nav">
 				 <span id="month-title-span">Past Entries</span>
 				<ol id="month-list"></ol>
@@ -33,11 +36,13 @@
 					</form>
 				</div>
 			</div>
-			<c:if test="${empty entries}">
-				<div id="no-results">
-					<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
-				</div>
-			</c:if>
+			<openmrs:hasPrivilege privilege="PHR Single Patient Access">
+				<c:if test="${empty entries}">
+					<div id="no-results">
+						<span id="no-results-text">You don't have any journal entries yet.<br><br> Why don't you <a href="<openmrs:contextPath/>/module/phrjournal/new_entry.form">write</a> one?</span>
+					</div>
+				</c:if>
+			</openmrs:hasPrivilege>
 			<c:forEach var="entry" items="${entries}">
 				<div class="entry">
 					<div class="title-bar">

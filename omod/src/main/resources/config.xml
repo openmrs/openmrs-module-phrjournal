@@ -25,11 +25,6 @@
 		<point>org.openmrs.module.personalhr.patientDashboardTab</point>
 		<class>@MODULE_PACKAGE@.extension.html.PatientJournalTab</class>
 	</extension>
-
-	<extension>
-		<point>org.openmrs.module.personalhr.restrictedUserDashboardTab</point>
-		<class>@MODULE_PACKAGE@.extension.html.PatientJournalTab</class>
-	</extension>
 	
 	<!-- Required Privileges 
 	<privilege>
