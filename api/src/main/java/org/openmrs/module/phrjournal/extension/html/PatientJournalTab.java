@@ -21,7 +21,7 @@ public class PatientJournalTab extends PatientDashboardTabExt {
 
 	@Override
 	public String getTabName() {
-		return "Journal";
+		return "My Journal";
 	}
 
     @Override
