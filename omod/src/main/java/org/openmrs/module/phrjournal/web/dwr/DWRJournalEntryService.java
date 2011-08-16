@@ -30,4 +30,12 @@ public class DWRJournalEntryService {
 		JournalEntry entry = journalService.getJournalEntry(entryId);
 		journalService.softDelete(entry);
 	}
+	
+    public void saveComment(String newComment, Integer parentEntryId){
+        JournalEntryService journalService = Context.getService(JournalEntryService.class); 
+        JournalEntry entry = new JournalEntry("Comment", newComment);
+        entry.setParentEntryId(parentEntryId);
+        entry.setCreator(Context.getAuthenticatedUser().getPerson());
+        journalService.saveJournalEntry(entry);
+    }	
 }

@@ -32,4 +32,16 @@
 			ALTER TABLE phrjournal_entry ADD COLUMN deleted tinyint(1) DEFAULT 0, ADD COLUMN date_deleted datetime default null;	
 		</sql>
 	</diff>
+		<diff>
+		<version>1.1</version>
+		<author>Hui Xiao</author>
+		<date>August 12th, 2011</date>
+		<description>
+			Creating 'parent_entry_id' column.
+		</description>
+		<sql>
+			ALTER TABLE phrjournal_entry ADD COLUMN parent_entry_id int(11) default NULL;	
+			ALTER TABLE phrjournal_entry ADD CONSTRAINT `parent_entry_id_fk` FOREIGN KEY (`parent_entry_id`) REFERENCES `phrjournal_entry` (`entry_id`);
+		</sql>
+	</diff>	
 </sqldiff>

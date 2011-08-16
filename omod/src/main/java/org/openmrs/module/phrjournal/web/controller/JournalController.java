@@ -14,6 +14,7 @@
 package org.openmrs.module.phrjournal.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import java.util.List;
 
@@ -58,7 +59,9 @@ public class JournalController {
 		if(id != null){
 			List<JournalEntry> entries = new ArrayList<JournalEntry>();
 			JournalEntry entry= Context.getService(JournalEntryService.class).getJournalEntry(id);
+			List<JournalEntry> comments = Context.getService(JournalEntryService.class).findComments(entry);
 			entries.add(entry);
+			entries.addAll(comments);
 			if(hasPermission(user,patientId)){
 				session.setAttribute("entries", entries);
 			}else{
@@ -66,15 +69,73 @@ public class JournalController {
 			}
 		}else if(searchText != null && !searchText.trim().equals("")){
 			List<JournalEntry> entries = ((JournalEntryService) Context.getService(JournalEntryService.class)).findEntries(searchText, per, true);
+			addMissingParents(entries);
 			session.setAttribute("entries", entries);
 			session.setAttribute("searching",true);
 		}else{
 			List<JournalEntry> entries = Context.getService(JournalEntryService.class).getJournalEntryForPerson(per,true);
+            addMissingComments(entries);
 			session.setAttribute("entries", entries);
 		}
 	}
 	
-	private boolean hasPermission(User u, Integer id){
+	/**
+     * Add missing parent entries for comments
+     * 
+     * @param entries original entries found through search
+     */
+    private void addMissingParents(List<JournalEntry> entries) {
+        // TODO Auto-generated method stub
+        HashSet<Integer> parents = new HashSet<Integer>();
+        for(JournalEntry entry : entries) {
+            Integer parentId = entry.getParentEntryId();
+            if(parentId!=null) {
+                parents.add(parentId);
+            }
+        }
+        
+        for(Integer parent : parents) {
+            boolean exists = false;
+            for(JournalEntry entry : entries) {
+                if(entry.getEntryId().equals(parent)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists) {
+                JournalEntry entry= Context.getService(JournalEntryService.class).getJournalEntry(parent);
+                entries.add(entry);
+            }
+        }        
+    }
+    
+    /**
+     * Add missing comments written by doctors or caregivers
+     * 
+     * @param entries original entries found through search
+     */
+    private void addMissingComments(List<JournalEntry> entries) {
+        // TODO Auto-generated method stub
+        HashSet<JournalEntry> parents = new HashSet<JournalEntry>();
+        for(JournalEntry entry : entries) {
+            Integer parentId = entry.getParentEntryId();
+            if(parentId==null) {
+                parents.add(entry);
+            }
+        }
+        
+        for(JournalEntry parent : parents) {
+            List<JournalEntry> comments = Context.getService(JournalEntryService.class).findComments(parent);
+            for(JournalEntry comment : comments) {
+                if(!comment.getCreator().getPersonId().equals(parent.getCreator().getPersonId())) {
+                    entries.add(comment);
+                }
+            }
+        }        
+    }
+    
+
+    private boolean hasPermission(User u, Integer id){
 	    PhrService ps = Context.getService(PhrService.class);
 	    
 	    if(id==null || u==null) {

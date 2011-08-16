@@ -109,9 +109,25 @@ public class HibernateJournalEntryDAO implements JournalEntryDAO {
     	return c.list();
     }
 
+    public List<JournalEntry> findComments(JournalEntry entry) {
+        Criteria c = sessionFactory.getCurrentSession().createCriteria(JournalEntry.class);
+        c.add(Restrictions.eq("deleted", false));
+        c.add(Restrictions.eq("parentEntryId", entry.getEntryId()));
+        return c.list();
+    }
+    
 	public void softDelete(JournalEntry entry) {
+	    if(entry.getParentEntryId()==null) {
+	        List<JournalEntry> comments = findComments(entry);
+	        if(comments != null) {
+	            for(JournalEntry comment : comments) {
+	                softDelete(comment);
+	            }
+	        }
+	    } 
+	    
 		entry.setDeleted(true);
 		entry.setDateDeleted(new Date());
-		saveJournalEntry(entry);
+		saveJournalEntry(entry);	    
 	}
 }

@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
-<openmrs:require privilege="PHR Single Patient Access" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+<openmrs:require privilege="PHR Single Patient Access" otherwise="/phr/login.htm" redirect="/module/phrjournal/create_entry.form" />
 
 <openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
 <c:if test="${phrStarted}">

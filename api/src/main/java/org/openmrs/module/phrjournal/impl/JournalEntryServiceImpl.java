@@ -74,9 +74,13 @@ public class JournalEntryServiceImpl extends BaseOpenmrsService implements Journ
     public List<JournalEntry> findEntries(String searchText, Person p, Boolean orderByDateDesc) {
 	    return dao.findEntries(searchText,p,orderByDateDesc);
     }
-
+    
 	public void softDelete(JournalEntry entry) {
 		dao.softDelete(entry);
+	}
+
+	public List<JournalEntry> findComments(JournalEntry entry){
+        return dao.findComments(entry);	    
 	}
 	
 }

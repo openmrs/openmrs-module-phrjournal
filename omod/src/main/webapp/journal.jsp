@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
-<personalhr:require privilege="View Journal" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+<personalhr:require privilege="View Journal" otherwise="/phr/login.htm" redirect="/module/phrjournal/journal.form" />
 
 <c:if test="${hasPermission}">
 
@@ -51,6 +51,7 @@
 				</c:if>
 			</openmrs:hasPrivilege>
 			<c:forEach var="entry" items="${entries}">
+			  <c:if test="${entry.parentEntryId==null}">
 				<div class="entry">
 					<div class="title-bar">
 						<span class="entry-title">${entry.title}</span>
@@ -62,13 +63,43 @@
 						</span>
 					</div>
 					<div class="entry-content" >${entry.content}</div>
+					<br/>
+					<c:forEach var="entry_comment" items="${entries}">
+					  <c:if test="${entry_comment.parentEntryId!=null && entry_comment.parentEntryId==entry.entryId}">					
+						<div class="comment-title-bar">
+							<span class="comment-title">${entry_comment.title}</span>
+							<span class="comment-date">
+								<openmrs:formatDate date="${entry_comment.dateCreated}" format="MM/dd/yyyy K:mm a"/>
+  							    <span class="comment-author">by ${entry_comment.creator.personName.fullName}</span>
+								<a href="#" id="delete=entry-${entry_comment.entryId}" onclick="deleteEntry(${entry_comment.entryId},&quot;${entry_comment.title}&quot;)">
+									<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
+								</a>
+							</span>
+						</div>
+						<div class="comment-content" >${entry_comment.content}</div>	
+						<br/>
+					  </c:if>				
+					</c:forEach>
+					
+					<div id="edit-comment-panel-${entry.entryId}" style="display:none;">
+						COMMENT: <textarea id="comment-${entry.entryId}" rows="3" cols="80"></textarea>
+					</div>
+					<br/>
+					<div id="comment-button-panel-${entry.entryId}">
+						<button id="leave-comment-button-${entry.entryId}" onclick="addCommentClick(${entry.entryId})">Leave a Comment</button>
+						<button id="cancel-comment-button-${entry.entryId}"  style="display:none;" onclick="cancelCommentClick(${entry.entryId})">Cancel</button>
+						<button id="save-comment-button-${entry.entryId}"  style="display:none;" onclick="saveCommentClick(${entry.entryId})">Save</button>
+					</div>
+					<br/>
 				</div>
+			  </c:if>				
 			</c:forEach>
 		</div>
 	</div>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>
 <openmrs:htmlInclude file="/dwr/engine.js"/>
+<openmrs:htmlInclude file="/dwr/util.js"/>
 <script src="<openmrs:contextPath/>/dwr/interface/DWRJournalEntryService.js"></script>
 <script type="text/javascript">
 	var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -76,6 +107,7 @@
 	$j(document).ready(function(){
 		DWRJournalEntryService.getJournalEntries(function(posts){createNavList(posts);});
 		$j("#search-box").val(gup("search"));
+		
 	});
 
 	function gup(name){
@@ -97,11 +129,13 @@
 		var postsByMonth={};
 		for(var i = 0; i < posts.length; i++){
 			var post = posts[i];
-			var postMonth = new Date(post.dateCreated).getMonth()
-			if(!(postMonth in postsByMonth)){ 
-				postsByMonth[postMonth] = [post];
-			}else{
-				postsByMonth[postMonth].push(post);
+			if(post.parentEntryId==null) {
+				var postMonth = new Date(post.dateCreated).getMonth()
+				if(!(postMonth in postsByMonth)){ 
+					postsByMonth[postMonth] = [post];
+				}else{
+					postsByMonth[postMonth].push(post);
+				}
 			}
 		}
 		for(var monthSet in postsByMonth){
@@ -134,7 +168,53 @@
 			});
 		}
 	}
+	
+	//
+	//Leave a Comment handling
+	//
+	function addCommentClick(entryId){
+		toggleEditingComment(entryId);
+	}
+	
+	function cancelCommentClick(entryId){
+		toggleEditingComment(entryId);
+		//clearEditingArea();
+	}
+	
+	function saveCommentClick(entryId){
+		writeComment(entryId);
+		//toggleEditingComment(entryId);
+	}
+	
+	function toggleEditingComment(entryId){
+		if ($j("#edit-comment-panel-"+entryId).is(":hidden")) {
+			$j("#edit-comment-panel-"+entryId).slideDown("fast", function(){
+				$j("#leave-comment-button-"+entryId).toggle();
+				$j("#save-comment-button-"+entryId).toggle();
+				$j("#cancel-comment-button-"+entryId).toggle();
+			});
+		}else{
+			$j("#edit-comment-panel-"+entryId).slideUp("fast", function(){
+				$j("#leave-comment-button-"+entryId).toggle();
+				$j("#save-comment-button-"+entryId).toggle();
+				$j("#cancel-comment-button-"+entryId).toggle();
+			});
+		}
+	}	
 
+	function writeComment(entryId) {
+		  var newComment = dwr.util.getValue("comment-"+entryId);
+		  var parentEntryId = entryId;
+		  dwr.engine.beginBatch();
+		  DWRJournalEntryService.saveComment(newComment, parentEntryId,function(){
+				location.reload(true);
+			});
+		  //fillAddressTable();
+		  //fillAlertAddressSelect();
+		  dwr.engine.endBatch();
+		  //clearEditingArea();
+		  //toggleEditingComment(entryId);
+	}	
 </script>
 </c:if>
 <c:if test="${!hasPermission}">

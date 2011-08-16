@@ -54,6 +54,7 @@
 				<param name="class" value="org.openmrs.module.phrjournal.web.dwr.DWRJournalEntryService"/>
 				<include method="getJournalEntries"/>
 				<include method="softDeleteEntry"/>
+				<include method="saveComment"/>
 			</create>
 		</allow>
 	</dwr>

@@ -26,6 +26,7 @@ public class JournalEntry extends BaseOpenmrsObject{
 	private JournalEntry(){}
 	
 	private Integer entryId;
+    private Integer parentEntryId;
 	
 	private String title;
 	private String content;
@@ -152,5 +153,21 @@ public class JournalEntry extends BaseOpenmrsObject{
 	public Date getDateDeleted() {
 		return dateDeleted;
 	}
+
+    
+    /**
+     * @return id of parent entry (null: original entry; not null: comment to an original/parent entry)
+     */
+    public Integer getParentEntryId() {
+        return parentEntryId;
+    }
+
+    
+    /**
+     * @param parentEntryId id of parent entry
+     */
+    public void setParentEntryId(Integer parentEntryId) {
+        this.parentEntryId = parentEntryId;
+    }
 
 }

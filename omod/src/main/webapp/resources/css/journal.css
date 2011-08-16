@@ -79,3 +79,27 @@ ol a:hover, ol a:active{
 	font-size:1.2em;
 	margin:50px 0px 30px 0px;
 }
+
+.comment-entry{
+        margin:30px 20px;
+        color:grey;
+}
+.comment-title-bar{
+        border-bottom:1px solid black;
+        margin-bottom:10px;
+        position:relative;
+}
+.comment-title{
+        color:grey;
+        font-size:0.8em;
+}
+.comment-date{
+        color:grey;
+        font-size:0.8em;
+        position:absolute;
+        bottom:5px;
+        right:2px;
+}
+.comment-author{
+        color:grey;
+ }

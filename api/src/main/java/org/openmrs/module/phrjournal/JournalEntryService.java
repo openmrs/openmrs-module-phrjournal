@@ -78,4 +78,12 @@ public interface JournalEntryService extends OpenmrsService {
 	 */
 	@Transactional
 	public void softDelete(JournalEntry entry);
+	
+	/**
+     * find all comments of a given entry
+	 * @param entry parent entry of comments
+	 * @return all comments of a given entry
+     */
+    @Transactional
+    public List<JournalEntry> findComments(JournalEntry entry);	
 }
