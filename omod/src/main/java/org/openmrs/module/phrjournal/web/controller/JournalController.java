@@ -40,6 +40,7 @@ public class JournalController {
 	public void getEntry(@RequestParam(value="patientId",required=false) Integer patientId,
 	                     @RequestParam(value="id",required=false) Integer id,
 	                     @RequestParam(value="search",required=false) String searchText,
+	                     @RequestParam(value="displayAll",required=false) String displayAll,
 	                     HttpServletRequest request){
 		HttpSession session = request.getSession();
 		session.setAttribute("hasPermission",true);
@@ -67,7 +68,7 @@ public class JournalController {
 			}else{
 				session.setAttribute("hasPermission",false);
 			}
-		}else if(searchText != null && !searchText.trim().equals("")){
+		}else if(searchText != null && !searchText.trim().equals("") && displayAll == null){
 			List<JournalEntry> entries = ((JournalEntryService) Context.getService(JournalEntryService.class)).findEntries(searchText, per, true);
 			addMissingParents(entries);
 			session.setAttribute("entries", entries);

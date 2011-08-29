@@ -33,6 +33,7 @@
 					<form id="search-form" method="get" action="<openmrs:contextPath/>/module/phrjournal/journal.form">  
 						<input type="text" id="search-box" name="search" ></input>
 						<input id="search-button" type="submit" value="Search"></input>
+						<input id="display-all-button" type="submit" value="Display All Entries" name="displayAll"></input>
 					</form>
 				</div>
 			</div>

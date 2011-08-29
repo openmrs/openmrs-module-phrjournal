@@ -81,6 +81,12 @@
 	<mappingFiles>
 		${omodHbmConfig}
 	</mappingFiles>
+
+	<globalProperty>
+		<property>@MODULE_ID@.PatientJournalTab.displayorder</property>
+		<defaultValue>6</defaultValue>
+		<description>Display order of PHR Journal tab</description>
+	</globalProperty>
 	
 </module>
 

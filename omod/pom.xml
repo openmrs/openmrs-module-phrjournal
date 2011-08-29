@@ -39,7 +39,7 @@
 	      <artifactId>personalhr</artifactId>
 	      <version>0.1</version>
 	      <scope>system</scope>
-	      <systemPath>E:\tools\workspace\phrjournal\omod\src\main\resources\personalhr-0.1.jar</systemPath>
+	      <systemPath>E:\tools\workspace\phrjournal-0.1-SNAPSHOT\omod\src\main\resources\personalhr-0.1.jar</systemPath>
 		</dependency>									
 	</dependencies>
 
