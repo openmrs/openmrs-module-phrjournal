@@ -58,9 +58,11 @@
 						<span class="entry-title">${entry.title}</span>
 						<span class="entry-date">
 							<openmrs:formatDate date="${entry.dateCreated}" format="MM/dd/yyyy K:mm a"/>
-							<a href="#" id="delete=entry-${entry.entryId}" onclick="deleteEntry(${entry.entryId},&quot;${entry.title}&quot;)">
-								<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
-							</a>
+							<openmrs:hasPrivilege privilege="PHR Single Patient Access">
+								<a href="#" id="delete=entry-${entry.entryId}" onclick="deleteEntry(${entry.entryId},&quot;${entry.title}&quot;)">
+									<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
+								</a>
+							</openmrs:hasPrivilege>
 						</span>
 					</div>
 					<div class="entry-content" >${entry.content}</div>
@@ -72,9 +74,11 @@
 							<span class="comment-date">
 								<openmrs:formatDate date="${entry_comment.dateCreated}" format="MM/dd/yyyy K:mm a"/>
   							    <span class="comment-author">by ${entry_comment.creator.personName.fullName}</span>
-								<a href="#" id="delete=entry-${entry_comment.entryId}" onclick="deleteEntry(${entry_comment.entryId},&quot;${entry_comment.title}&quot;)">
-									<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
-								</a>
+								<openmrs:hasPrivilege privilege="PHR Single Patient Access">
+									<a href="#" id="delete=entry-${entry_comment.entryId}" onclick="deleteEntry(${entry_comment.entryId},&quot;${entry_comment.title}&quot;)">
+										<img src="<openmrs:contextPath/>/moduleResources/phrjournal/img/delete.png" title="Delete Entry"/>
+									</a>
+								</openmrs:hasPrivilege>
 							</span>
 						</div>
 						<div class="comment-content" >${entry_comment.content}</div>	

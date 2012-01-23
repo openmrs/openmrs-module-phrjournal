@@ -15,6 +15,9 @@ package org.openmrs.module.phrjournal.web.dwr;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.phrjournal.JournalEntryService;
 import org.openmrs.module.phrjournal.domain.JournalEntry;
@@ -22,7 +25,10 @@ import org.openmrs.module.phrjournal.domain.JournalEntry;
 public class DWRJournalEntryService {	
 	
 	public List<JournalEntry> getJournalEntries(){
-		return Context.getService(JournalEntryService.class).getJournalEntryForPerson(Context.getAuthenticatedUser().getPerson(), true);
+        HttpSession session = uk.ltd.getahead.dwr.WebContextFactory.get().getSession(false);
+        Integer patientId = (Integer) session.getAttribute("patientId");
+        Person per = (patientId==null? Context.getAuthenticatedUser().getPerson() : Context.getPatientService().getPatient(patientId));
+		return Context.getService(JournalEntryService.class).getJournalEntryForPerson(per, true);
 	}
 	
 	public void softDeleteEntry(Integer entryId){
