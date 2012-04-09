@@ -12,7 +12,6 @@ public class PatientJournalTab extends PatientDashboardTabExt {
     public PatientJournalTab() {
         super();
         String order = Context.getAdministrationService().getGlobalProperty("phrjournal.PatientJournalTab.displayorder");
-        this.setOrder(Integer.valueOf(order==null? "6": order));
     }
     
 	public Extension.MEDIA_TYPE getMediaType(){
