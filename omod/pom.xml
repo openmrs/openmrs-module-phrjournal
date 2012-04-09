@@ -35,12 +35,10 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
-	      <groupId>org.openmrs.module</groupId>
-	      <artifactId>personalhr</artifactId>
-	      <version>0.1</version>
-	      <scope>system</scope>
-	      <systemPath>E:\tools\workspace\phrjournal-0.1-SNAPSHOT\omod\src\main\resources\personalhr-0.1.jar</systemPath>
-		</dependency>									
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>personalhr-api</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
